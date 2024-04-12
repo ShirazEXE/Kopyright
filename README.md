@@ -1,0 +1,2 @@
+# Kopyright
+Royalty Management Software
