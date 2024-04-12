@@ -12,7 +12,7 @@ root.render(
     <Auth0Provider
       domain="dev-krh7bt4ydn23zwqs.us.auth0.com"
       clientId="wTnU2Udps5VxZxC7V8GvZEbMGZ0q4FX7"
-      redirectUri="http://localhost:3000/Dashboard"
+      redirectUri="http://localhost:3000/CreatorDashboard"
     >
       <App />
     </Auth0Provider>
