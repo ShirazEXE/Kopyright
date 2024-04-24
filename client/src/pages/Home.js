@@ -1,17 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import '../pages_styles/Home.css';
 
 const Home = () => {
-  const { loginWithRedirect } = useAuth0();
-
-  const handleGetStarted = () => {
-    loginWithRedirect({
-      redirect_uri: "http://localhost:3000/CreatorDashboard" // Replace with your authorized callback URL
-    });
-  };
-
   return (
     <div>
       <header className="header">
@@ -23,26 +16,32 @@ const Home = () => {
             <ul>
               <li><Link to="/how-it-works">How It Works</Link></li>
               <li><Link to="/explore-royalties">Explore Royalties</Link></li>
-              <li><button className="btn btn-primary" onClick={handleGetStarted}>Get Started</button></li>
             </ul>
           </nav>
         </div>
       </header>
-
       <main>
         <section className="hero">
           <div className="hero-content">
             <h1>Unlock the Value of Your Royalties</h1>
             <p>Revolutionize the way you manage and transact your creative assets.</p>
-            <button className="btn btn-primary" onClick={handleGetStarted}>Get Started</button>
-          </div>
-          <div className="hero-image">
-            <img src="hero-image.jpg" alt="Royalty Management System" />
+            <Link to="/CreatorDashboard" className="btn btn-primary">Get Started</Link>
           </div>
         </section>
-
+        <section className="carousel-container">
+          <Carousel showArrows={true} showThumbs={false} infiniteLoop={true} autoPlay={true} interval={5000}>
+            <div className="slide">
+              <img src="https://images.unsplash.com/photo-1576926241721-4b830531f667?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Slide 1" />
+              <h3>Invest in your favourite artist</h3>
+            </div>
+            <div className="slide">
+              <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Slide 2" />
+              <h3>Find the right price for your creative assets</h3>
+            </div>
+          </Carousel>
+        </section>
         <section className="features">
-          <div className="feature"> 
+          <div className="feature">
             <h2>Transparent Transactions</h2>
             <p>Our platform provides a secure and transparent marketplace for buying, selling, and leasing royalties.</p>
           </div>
@@ -55,7 +54,6 @@ const Home = () => {
             <p>We integrate cutting-edge technologies like blockchain and machine learning to enhance your experience.</p>
           </div>
         </section>
-
         <section className="testimonials">
           <h2>What Our Users Say</h2>
           <div className="testimonial">
@@ -72,7 +70,6 @@ const Home = () => {
           </div>
         </section>
       </main>
-
       <footer className="footer">
         <div className="footer-content">
           <div className="copyright">
