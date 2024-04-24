@@ -38,6 +38,20 @@ a {
   background-color: #F9EDEC;
 }
 
+.btn-login {
+  background-color: #D2DAE6;
+  color: #1E1515;
+  text-align: center;
+  height: 50px;
+  position: relative;
+  
+}
+
+.btn-login:hover {
+  background-color: #F9EDEC;
+}
+
+
 /* Header styles */
 .header {
   background-color: #1E1515;

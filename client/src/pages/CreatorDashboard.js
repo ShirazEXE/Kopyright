@@ -111,7 +111,7 @@ const CreatorDashboard = () => {
           </select>
         </div>
         <div className="form-group">
-         <label htmlFor="file">File</label>
+          <label htmlFor="file">File</label>
           <input
             type="file"
             className="form-control-file"
@@ -144,23 +144,27 @@ const CreatorDashboard = () => {
       </form>
 
       <h2>Uploaded Content</h2>
-      {uploadedContent.map((content, index) => (
-        <div key={index} className="content-item">
-          <h3>{content.title}</h3>
-          <p>{content.description}</p>
-          <p>Price: ${content.price}</p>
-          <p>Uploaded By: {content.uploadedBy}</p>
-          <p>Uploaded At: {new Date(content.uploadedAt).toLocaleString()}</p>
-          {content.contentType.startsWith('image') ? (
-            <img src={`data:${content.contentType};base64,${content.fileBase64}`} alt="Thumbnail" />
-          ) : (
-            <video controls>
-              <source src={`data:${content.contentType};base64,${content.fileBase64}`} type={content.contentType} />
-              Your browser does not support the video tag.
-            </video>
-          )}
-        </div>
-      ))}
+      {uploadedContent.length > 0 ? (
+        uploadedContent.map((content, index) => (
+          <div key={index} className="content-item">
+            <h3>{content.title}</h3>
+            <p>{content.description}</p>
+            <p>Price: ${content.price}</p>
+            <p>Uploaded By: {content.uploadedBy}</p>
+            <p>Uploaded At: {new Date(content.uploadedAt).toLocaleString()}</p>
+            {content.contentType.startsWith('image') ? (
+              <img src={`data:${content.contentType};base64,${content.fileBase64}`} alt="Thumbnail" />
+            ) : (
+              <video controls>
+                <source src={`data:${content.contentType};base64,${content.fileBase64}`} type={content.contentType} />
+                Your browser does not support the video tag.
+              </video>
+            )}
+          </div>
+        ))
+      ) : (
+        <p>No content uploaded yet.</p>
+      )}
     </div>
   );
 };

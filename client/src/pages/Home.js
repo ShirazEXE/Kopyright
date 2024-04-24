@@ -1,10 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import '../pages_styles/Home.css';
 
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <header className="header">
@@ -14,8 +16,11 @@ const Home = () => {
           </div>
           <nav className="navigation">
             <ul>
-              <li><Link to="/how-it-works">How It Works</Link></li>
-              <li><Link to="/explore-royalties">Explore Royalties</Link></li>
+              <li><Link to="https://linktr.ee/RoyaltyInvestment">How It Works</Link></li>
+              <li><Link to="https://linktr.ee/RoyaltyLegalHelp">Legal Help</Link></li>
+              <li></li>
+              <li></li>
+              <button className="btn btn-login" onClick={() => navigate('/login')}>Login</button>
             </ul>
           </nav>
         </div>
@@ -25,7 +30,7 @@ const Home = () => {
           <div className="hero-content">
             <h1>Unlock the Value of Your Royalties</h1>
             <p>Revolutionize the way you manage and transact your creative assets.</p>
-            <Link to="/CreatorDashboard" className="btn btn-primary">Get Started</Link>
+            <button className="btn btn-primary" onClick={() => navigate('/signup')}>Get Started</button>
           </div>
         </section>
         <section className="carousel-container">
