@@ -129,12 +129,8 @@ app.post('/api/login', async (req, res) => {
 
     // Start a new session
     req.session.userId = user._id;
+    res.json(user);
 
-    if (user.role === 'Investor') {
-      res.redirect('/investor-dashboard');
-    } else {
-      res.json(user);
-    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -205,6 +201,33 @@ app.get('/api/uploadHistory', async (req, res) => {
     res.json(uploads);
   } catch (error) {
     console.error('Error fetching upload history:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Endpoint to fetch all content from all users
+app.get('/api/allContent', async (req, res) => {
+  try {
+    const allContent = await Content.find().sort({ uploadedAt: -1 });
+    res.json(allContent);
+  } catch (error) {
+    console.error('Error fetching all content:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Endpoint to fetch user role
+app.get('/api/userRole', async (req, res) => {
+  try {
+    // Check if user is logged in
+    if (!req.session.userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const user = await User.findById(req.session.userId);
+    res.json({ role: user.role });
+  } catch (error) {
+    console.error('Error fetching user role:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

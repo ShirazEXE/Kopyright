@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import CreatorDashboard from './pages/CreatorDashboard';
+import InvestorDashboard from './pages/InvestorDashboard';
 import Home from './pages/Home';
 import Marketplace from './pages/Marketplace';
 import Login from './pages/Login';
@@ -17,9 +18,10 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/CreatorDashboard" element={<CreatorDashboard />} />
+        <Route path="/InvestorDashboard" element={<InvestorDashboard />} />
         <Route path="/Marketplace" element={<Marketplace />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/SignUp" element={<SignUp />} />
       </Routes>
     </Router>
   );

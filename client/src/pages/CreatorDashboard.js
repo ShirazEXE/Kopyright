@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import '../pages_styles/CreatorDashboard.css';
+import { useNavigate } from 'react-router-dom';
+import "../pages_styles/CreatorDashboard.css";
 
 const CreatorDashboard = () => {
   const [title, setTitle] = useState('');
@@ -9,7 +10,8 @@ const CreatorDashboard = () => {
   const [file, setFile] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
   const [uploadedContent, setUploadedContent] = useState([]);
-  const [uploadedBy, setUploadedBy] = useState('');
+  const navigate = useNavigate();
+  const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
 
   const fetchUploadedContent = async () => {
     try {
@@ -31,7 +33,6 @@ const CreatorDashboard = () => {
     formData.append('file', file);
     formData.append('thumbnail', thumbnail);
     formData.append('contentType', contentType);
-    formData.append('uploadedBy', uploadedBy);
 
     try {
       const response = await fetch('/api/content', {
@@ -46,6 +47,13 @@ const CreatorDashboard = () => {
       const data = await response.json();
       console.log('Content uploaded successfully:', data);
       fetchUploadedContent();
+      setTitle('');
+      setDescription('');
+      setPrice('');
+      setFile(null);
+      setThumbnail(null);
+      setContentType('');
+      document.getElementById('myForm').reset();
     } catch (error) {
       console.error('Error uploading content:', error.message);
     }
@@ -63,12 +71,44 @@ const CreatorDashboard = () => {
     fetchUploadedContent();
   }, []);
 
+  const handleMarketplaceClick = () => {
+    navigate('/marketplace');
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/logout', {
+        method: 'POST',
+      });
+      navigate('/', { replace: true }); // redirect to home page
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
+  const toggleFilterSidebar = () => {
+    setIsFilterSidebarOpen(!isFilterSidebarOpen);
+  };
+
   return (
-    <div className="creator-dashboard">
+    <div className="creator-dashboard-container">
       <h1>Creator Dashboard</h1>
-      <form onSubmit={handleSubmit}>
+      <button className="hamburger-btn" onClick={toggleFilterSidebar}>
+        ☰
+      </button>
+      <div
+        className={`filter-sidebar ${isFilterSidebarOpen? 'open' : ''}`}
+      >
+        <button className="sidebar-btn" onClick={handleMarketplaceClick}>
+          Go to Marketplace
+        </button>
+        <button className="sidebar-btn" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
+      <form onSubmit={handleSubmit} id="myForm">
         <div className="form-group">
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title">Title: </label>
           <input
             type="text"
             className="form-control"
@@ -78,17 +118,17 @@ const CreatorDashboard = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="description">Description</label>
-          <textarea
+          <label htmlFor="description">Description: </label>
+          <div className="Desc-textarea"><textarea
             className="form-control"
             id="description"
             rows="3"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
+          ></textarea></div>
         </div>
         <div className="form-group">
-          <label htmlFor="price">Price</label>
+          <label htmlFor="price">Initial Valuation: </label>
           <input
             type="number"
             className="form-control"
@@ -98,20 +138,20 @@ const CreatorDashboard = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="contentType">Content Type</label>
+          <label htmlFor="contentType">Content Type: </label>
           <select
             className="form-control"
             id="contentType"
             value={contentType}
             onChange={(e) => setContentType(e.target.value)}
           >
-            <option value="">Select Content Type</option>
-            <option value="image/jpeg">Image</option>
+            <option value="">Select Content Type: </option>
+            <option value="image/jpeg">Art</option>
             <option value="video/mp4">Video</option>
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="file">File</label>
+          <label htmlFor="file">Excerpt of content: </label>
           <input
             type="file"
             className="form-control-file"
@@ -120,7 +160,7 @@ const CreatorDashboard = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="thumbnail">Thumbnail</label>
+          <label htmlFor="thumbnail">Thumbnail: </label>
           <input
             type="file"
             className="form-control-file"
@@ -128,19 +168,11 @@ const CreatorDashboard = () => {
             onChange={handleThumbnailChange}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="uploadedBy">Uploaded By</label>
-          <input
-            type="text"
-            className="form-control"
-            id="uploadedBy"
-            value={uploadedBy}
-            onChange={(e) => setUploadedBy(e.target.value)}
-          />
+        <div className="form-group-right">
+          <button type="submit" className="btn btn-primary">
+            Upload
+          </button>
         </div>
-        <button type="submit" className="btn btn-primary">
-          Upload
-        </button>
       </form>
 
       <h2>Uploaded Content</h2>
@@ -149,8 +181,7 @@ const CreatorDashboard = () => {
           <div key={index} className="content-item">
             <h3>{content.title}</h3>
             <p>{content.description}</p>
-            <p>Price: ${content.price}</p>
-            <p>Uploaded By: {content.uploadedBy}</p>
+            <p>Initial Valuation: ${content.price}</p>
             <p>Uploaded At: {new Date(content.uploadedAt).toLocaleString()}</p>
             {content.contentType.startsWith('image') ? (
               <img src={`data:${content.contentType};base64,${content.fileBase64}`} alt="Thumbnail" />
