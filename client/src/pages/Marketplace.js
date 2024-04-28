@@ -48,6 +48,22 @@ const Marketplace = () => {
     setPriceRange([value, value + 1000]);
   };
 
+  const handleBuy = (contentId) => {
+    fetch(`/api/buyContent/${contentId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Content bought successfully!');
+        // Redirect to InvestorDashboard
+        navigate('/InvestorDashboard');
+      })
+      .catch((error) => console.error('Error buying content:', error));
+  };
+
   const removeFilter = () => {
     setUploader("all");
     setPriceRange([0, 1000]);
@@ -125,17 +141,7 @@ const Marketplace = () => {
                 <p>Initial Valuation: ${content.price}</p>
                 <p>Price per Share: ${(content.price / 100).toFixed(2)}</p>
                 {userRole === "Investor" && (
-                  <button className="buy-btn" onClick={() => {
-                    // Handle the buy action here, e.g., make a POST request to the API
-                    fetch(`/api/buyContent/${content.id}`, { method: 'POST' })
-                     .then((response) => response.json())
-                     .then((data) => {
-                        console.log("Content bought successfully!");
-                      })
-                     .catch((error) =>
-                        console.error("Error buying content:", error)
-                      );
-                  }}>
+                  <button className="buy-btn" onClick={() => handleBuy(content._id)}>
                     Buy
                   </button>
                 )}

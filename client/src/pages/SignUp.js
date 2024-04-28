@@ -8,16 +8,21 @@ const Signup = () => {
   const [mobileNumber, setMobileNumber] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); // new field
   const [role, setRole] = useState('Artist');
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [message, setMessage] = useState('');
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!termsAccepted) {
       setMessage('Please check the Terms & Conditions of our service before Signing Up');
+      return;
+    }
+
+    if (password!== confirmPassword) {
+      setMessage('Passwords don\'t match');
       return;
     }
 
@@ -80,6 +85,15 @@ const Signup = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
+            required
+          />
+          <input
+            type="password"
+            className="form-control"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Retype Password"
             required
           />
           <select

@@ -41,6 +41,16 @@ const contentSchema = new mongoose.Schema({
 // Content model
 const Content = mongoose.model('Content', contentSchema);
 
+// Transactions schema
+const transactionSchema = new mongoose.Schema({
+  contentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Content', required: true },
+  investor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  purchasedAt: { type: Date, default: Date.now },
+});
+
+// Transaction model
+const Transaction = mongoose.model('Transaction', transactionSchema);
+
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -228,6 +238,51 @@ app.get('/api/userRole', async (req, res) => {
     res.json({ role: user.role });
   } catch (error) {
     console.error('Error fetching user role:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/api/buyContent/:id', async (req, res) => {
+  try {
+    // Check if user is logged in
+    if (!req.session.userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const contentId = req.params.id;
+    const userId = req.session.userId; // Get userId from the session
+
+    // Create a new transaction document
+    const newTransaction = await Transaction.create({
+      contentId,
+      investor: userId,
+    });
+
+    res.status(201).json(newTransaction);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// Endpoint to fetch bought content for the logged-in investor
+app.get('/api/investorContent', async (req, res) => {
+  try {
+    // Check if user is logged in
+    if (!req.session.userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    // Find transactions where the investor matches the logged-in user
+    const transactions = await Transaction.find({ investor: req.session.userId })
+      .populate('contentId')
+      .exec();
+
+    // Extract the content data from the transactions
+    const boughtContent = transactions.map(transaction => transaction.contentId);
+
+    res.json(boughtContent);
+  } catch (error) {
+    console.error('Error fetching bought content:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

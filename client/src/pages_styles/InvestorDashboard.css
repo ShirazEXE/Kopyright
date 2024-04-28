@@ -1,113 +1,137 @@
 .investor-dashboard-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #2E2525;
-    padding: 20px;
-    position: relative;
-  }
-  
-  .investor-dashboard-container h1 {
-    font-size: 3rem;
-    margin-bottom: 30px;
-    color: #60a3bc;
-    text-align: center;
-    width: 100%;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 1s ease-in-out;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #2E2525;
+  padding: 20px;
+  position: relative;
+}
 
-  .investor-dashboard-container p {
-    color: #0d2208;
-  }
-  
-  .filter-sidebar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 300px;
-    height: 100%;
-    background-color: #453432;
-    color: #F9EDEC;
+.welcome-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.welcome-container h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #60a3bc;
+  text-align: center;
+}
+
+.welcome-container p {
+  color: #0d2208;
+  margin-bottom: 10px;
+}
+
+.transaction-history-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-history-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #60a3bc;
+  text-align: center;
+}
+
+.content-item {
+  background-color: #f7f7f7;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.content-item h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.content-item p {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.filter-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background-color: #453432;
+  color: #F9EDEC;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px 0 0 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  animation: slideInRight 0.5s ease-in-out;
+}
+
+.filter-sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-btn {
+  background-color: transparent;
+  color: #F9EDEC;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 10px;
+  margin-bottom: 20px;
+  margin-right: 30px;
+  margin-left: 30px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar-btn:hover {
+  background-color: #F9EDEC;
+  color: #453432;
+}
+
+.hamburger-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 2rem;
+  padding: 10px;
+  z-index: 1001;
+  color: #F9EDEC;
+  transition: transform 0.3s ease-in-out;
+}
+
+.hamburger-btn:focus {
+  outline: none;
+}
+
+.hamburger-btn.open {
+  transform: translateX(-300px);
+}
+
+@keyframes slideInRight {
+  from {
     transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    box-sizing: border-box;
-    border-radius: 10px 0 0 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    animation: slideInRight 0.5s ease-in-out;
   }
-  
-  .filter-sidebar.open {
+  to {
     transform: translateX(0);
   }
-  
-  .sidebar-btn {
-    background-color: transparent;
-    color: #F9EDEC;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    padding: 10px;
-    margin-bottom: 20px;
-    margin-right: 30px;
-    margin-left: 30px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .sidebar-btn:hover {
-    background-color: #F9EDEC;
-    color: #453432;
-  }
-  
-  .investor-dashboard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
-    margin-top: 0px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    animation: fadeIn 1s ease-in-out;
-  }
-  
-  .hamburger-btn {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 2rem;
-    padding: 10px;
-    z-index: 1001;
-    color: #F9EDEC;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .hamburger-btn:focus {
-    outline: none;
-  }
-  
-  .hamburger-btn.open {
-    transform: translateX(-300px);
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
+}
